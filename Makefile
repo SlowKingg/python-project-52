@@ -1,5 +1,5 @@
 # Build script for deployment
-.PHONY: build install collectstatic migrate render-start check
+.PHONY: build install collectstatic migrate render-start check makemessages compilemessages
 
 build:
 	./build.sh
@@ -19,3 +19,10 @@ render-start:
 
 check:
 	uv run python manage.py check
+
+makemessages:
+	uv run django-admin makemessages -l ru -l en
+
+compilemessages:
+	uv run django-admin compilemessages
+

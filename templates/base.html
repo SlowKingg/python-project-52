@@ -1,0 +1,54 @@
+{% load i18n django_bootstrap5 %}
+<!DOCTYPE html>
+<html lang="{% get_current_language as LANGUAGE_CODE %}{{ LANGUAGE_CODE }}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}{% trans 'Task Manager' %}{% endblock %}</title>
+    {% bootstrap_css %}
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom mb-4">
+    <div class="container">
+        <a class="navbar-brand" href="/">{% trans 'Task Manager' %}</a>
+        <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+        >
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <li class="nav-item"><a class="nav-link" href="#">{% trans 'Users' %}</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">{% trans 'Log in' %}</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">{% trans 'Sign up' %}</a></li>
+            </ul>
+            {% get_current_language as LANGUAGE_CODE %}
+            {% get_available_languages as LANGUAGES %}
+            <form action="{% url 'set_language' %}" method="post" class="d-flex ms-3">
+                {% csrf_token %}
+                <input name="next" type="hidden" value="{{ request.get_full_path }}">
+                <select name="language" class="form-select form-select-sm w-auto"
+                        onchange="this.form.submit()">
+                    {% for lang_code, lang_name in LANGUAGES %}
+                    <option value="{{ lang_code }}"
+                        {% if lang_code == LANGUAGE_CODE %}selected{% endif %}>
+                        {{ lang_name }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </form>
+        </div>
+    </div>
+</nav>
+<main class="container">
+    {% block content %}{% endblock %}
+</main>
+{% bootstrap_javascript %}
+</body>
+</html>
