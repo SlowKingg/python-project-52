@@ -1,0 +1,13 @@
+staticfiles/
+
+# Python cache and bytecode
+__pycache__/
+*.py[cod]
+
+# Local environment and IDE
+.venv/
+.idea/
+
+# Local SQLite database
+db.sqlite3
+
