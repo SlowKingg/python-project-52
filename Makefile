@@ -15,7 +15,7 @@ migrate:
 
 # Start production server on Render.com
 render-start:
-	uv run gunicorn task_manager.wsgi:application
+	uv run gunicorn task_manager.wsgi:application --bind 0.0.0.0:$${PORT:-8000}
 
 check:
 	uv run python manage.py check

@@ -3,6 +3,12 @@
 
 [Деплой](https://task-manager-ou5q.onrender.com)
 
+## Render
+
+- Start Command: `make render-start`
+- Переменная `PORT` задается Render автоматически; сервер слушает `0.0.0.0:$PORT`.
+- Для production добавьте домен Render в `ALLOWED_HOSTS` (например, `task-manager-ou5q.onrender.com`).
+
 ## Конфигурация окружения
 
 Настройки загружаются из `.env` через `python-dotenv`.
