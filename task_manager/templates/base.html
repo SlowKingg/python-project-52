@@ -26,6 +26,7 @@
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center">
                 <li class="nav-item"><a class="nav-link" href="{% url 'users_index' %}">{% trans 'Users' %}</a></li>
                 {% if user.is_authenticated %}
+                <li class="nav-item"><a class="nav-link" href="{% url 'statuses_index' %}">Статусы</a></li>
                 <li class="nav-item">
                     <form action="{% url 'logout' %}" method="post" class="d-inline mb-0">
                         {% csrf_token %}
