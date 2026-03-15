@@ -18,15 +18,24 @@
             data-bs-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent"
             aria-expanded="false"
-            aria-label="Toggle navigation"
+            aria-label="{% trans 'Toggle navigation' %}"
         >
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                <li class="nav-item"><a class="nav-link" href="#">{% trans 'Users' %}</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">{% trans 'Log in' %}</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">{% trans 'Sign up' %}</a></li>
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center">
+                <li class="nav-item"><a class="nav-link" href="{% url 'users_index' %}">{% trans 'Users' %}</a></li>
+                {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <form action="{% url 'logout' %}" method="post" class="d-inline mb-0">
+                        {% csrf_token %}
+                        <button class="nav-link btn btn-link bg-transparent border-0 p-0" type="submit">{% trans 'Log out' %}</button>
+                    </form>
+                </li>
+                {% else %}
+                <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">{% trans 'Log in' %}</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'users_create' %}">{% trans 'Sign up' %}</a></li>
+                {% endif %}
             </ul>
             {% get_current_language as LANGUAGE_CODE %}
             {% get_available_languages as LANGUAGES %}
@@ -49,6 +58,7 @@
     </div>
 </nav>
 <main class="container">
+    {% bootstrap_messages %}
     {% block content %}{% endblock %}
 </main>
 {% bootstrap_javascript %}

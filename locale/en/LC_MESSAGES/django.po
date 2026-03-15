@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: hexlet-code 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-14 16:15+0700\n"
+"POT-Creation-Date: 2026-03-15 18:02+0700\n"
 "PO-Revision-Date: 2026-03-14 00:00+0000\n"
 "Last-Translator: \n"
 "Language-Team: English\n"
@@ -15,23 +15,120 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: templates/base.html:7 templates/base.html:13 templates/index.html:4
-#: templates/index.html:9
+#: task_manager/templates/base.html:7 task_manager/templates/base.html:13
+#: task_manager/templates/index.html:4 task_manager/templates/index.html:9
 msgid "Task Manager"
 msgstr "Task Manager"
 
-#: templates/base.html:27
+#: task_manager/templates/base.html:21
+msgid "Toggle navigation"
+msgstr "Toggle navigation"
+
+#: task_manager/templates/base.html:27
+#: task_manager/templates/users/index.html:4
+#: task_manager/templates/users/index.html:7
 msgid "Users"
 msgstr "Users"
 
-#: templates/base.html:28
+#: task_manager/templates/base.html:32
+msgid "Log out"
+msgstr "Log out"
+
+#: task_manager/templates/base.html:36
+#: task_manager/templates/registration/login.html:4
+#: task_manager/templates/registration/login.html:7
+#: task_manager/templates/registration/login.html:11
 msgid "Log in"
 msgstr "Log in"
 
-#: templates/base.html:29 templates/index.html:11
+#: task_manager/templates/base.html:37 task_manager/templates/index.html:11
+#: task_manager/users/views.py:31
 msgid "Sign up"
 msgstr "Sign up"
 
-#: templates/index.html:10
-msgid "Welcome to the Task Manager — an educational Django project."
-msgstr "Welcome to the Task Manager — an educational Django project."
+#: task_manager/templates/index.html:10
+msgid "Welcome to the Task Manager - an educational Django project."
+msgstr "Welcome to the Task Manager - an educational Django project."
+
+#: task_manager/templates/users/delete.html:4
+#: task_manager/templates/users/delete.html:7
+msgid "Delete user"
+msgstr "Delete user"
+
+#: task_manager/templates/users/delete.html:8
+#, python-format
+msgid "Are you sure you want to delete %(username)s?"
+msgstr "Are you sure you want to delete %(username)s?"
+
+#: task_manager/templates/users/delete.html:11
+msgid "Yes, delete"
+msgstr "Yes, delete"
+
+#: task_manager/templates/users/index.html:12 task_manager/users/forms.py:16
+#: task_manager/users/forms.py:36
+msgid "Username"
+msgstr "Username"
+
+#: task_manager/templates/users/index.html:13
+msgid "Full name"
+msgstr "Full name"
+
+#: task_manager/templates/users/index.html:14
+msgid "Created at"
+msgstr "Created at"
+
+#: task_manager/templates/users/index.html:26 task_manager/users/views.py:50
+msgid "Update"
+msgstr "Update"
+
+#: task_manager/templates/users/index.html:28
+msgid "Delete"
+msgstr "Delete"
+
+#: task_manager/users/forms.py:14 task_manager/users/forms.py:34
+msgid "First name"
+msgstr "First name"
+
+#: task_manager/users/forms.py:15 task_manager/users/forms.py:35
+msgid "Last name"
+msgstr "Last name"
+
+#: task_manager/users/forms.py:20
+msgid "Password"
+msgstr "Password"
+
+#: task_manager/users/forms.py:24
+msgid "Password confirmation"
+msgstr "Password confirmation"
+
+#: task_manager/users/mixins.py:16
+msgid "You do not have permission to update another user."
+msgstr "You do not have permission to update another user."
+
+#: task_manager/users/views.py:26
+msgid "User has been registered successfully"
+msgstr "User has been registered successfully"
+
+#: task_manager/users/views.py:32
+msgid "Register"
+msgstr "Register"
+
+#: task_manager/users/views.py:44
+msgid "User has been updated successfully"
+msgstr "User has been updated successfully"
+
+#: task_manager/users/views.py:49
+msgid "Update user"
+msgstr "Update user"
+
+#: task_manager/users/views.py:60
+msgid "User has been deleted successfully"
+msgstr "User has been deleted successfully"
+
+#: task_manager/views.py:17
+msgid "You are logged in"
+msgstr "You are logged in"
+
+#: task_manager/views.py:29
+msgid "You are logged out"
+msgstr "You are logged out"
