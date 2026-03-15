@@ -10,28 +10,65 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
+import os
 from pathlib import Path
+from urllib.parse import parse_qs, unquote, urlparse
+
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+load_dotenv(BASE_DIR / '.env')
+
+
+def get_env_bool(name, default=False):
+    value = os.getenv(name)
+    if value is None:
+        return default
+    return value.strip().lower() in {'1', 'true', 'yes', 'on'}
+
+
+def get_env_list(name, default=''):
+    value = os.getenv(name, default)
+    return [item.strip() for item in value.split(',') if item.strip()]
+
+
+def get_postgres_from_url(database_url):
+    parsed = urlparse(database_url)
+    if parsed.scheme not in {'postgres', 'postgresql'}:
+        raise ValueError('DATABASE_URL must start with postgres:// or postgresql://')
+
+    db_config: dict[str, object] = {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': unquote(parsed.path.lstrip('/')),
+        'USER': unquote(parsed.username or ''),
+        'PASSWORD': unquote(parsed.password or ''),
+        'HOST': parsed.hostname or 'localhost',
+    }
+
+    if parsed.port:
+        db_config['PORT'] = str(parsed.port)
+
+    query = parse_qs(parsed.query)
+    if 'sslmode' in query and query['sslmode']:
+        db_config['OPTIONS'] = {'sslmode': query['sslmode'][0]}
+
+    return db_config
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-c0-@^c=&+3c-=6kn_$m#_w%w0@yorfhhnqr57mhu8=z$z0at2b'
+SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-c0-@^c=&+3c-=6kn_$m#_w%w0@yorfhhnqr57mhu8=z$z0at2b')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = get_env_bool('DEBUG', default=os.getenv('DJANGO_ENV', 'development') != 'production')
 
-ALLOWED_HOSTS = [
-    'localhost',
-    '127.0.0.1',
-    'webserver',
-    'testserver',
-    'task-manager-ou5q.onrender.com',
-]
+ALLOWED_HOSTS = get_env_list(
+    'ALLOWED_HOSTS',
+    default='localhost,127.0.0.1,webserver,testserver',
+)
 
 
 # Application definition
@@ -81,12 +118,27 @@ WSGI_APPLICATION = 'task_manager.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
+database_url = os.getenv('DATABASE_URL')
+postgres_db = os.getenv('POSTGRES_DB')
+
+if database_url:
+    database_config = get_postgres_from_url(database_url)
+elif postgres_db:
+    database_config = {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': postgres_db,
+        'USER': os.getenv('POSTGRES_USER', ''),
+        'PASSWORD': os.getenv('POSTGRES_PASSWORD', ''),
+        'HOST': os.getenv('POSTGRES_HOST', 'localhost'),
+        'PORT': os.getenv('POSTGRES_PORT', '5432'),
+    }
+else:
+    database_config = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
-}
+
+DATABASES = {'default': database_config}
 
 
 # Password validation
