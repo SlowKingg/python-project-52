@@ -11,6 +11,14 @@
         <p><strong>{% trans 'Status' %}:</strong> {{ object.status.name }}</p>
         <p><strong>{% trans 'Author' %}:</strong> {{ object.author.get_full_name|default:object.author.username }}</p>
         <p><strong>{% trans 'Executor' %}:</strong> {{ object.executor.get_full_name|default:object.executor.username|default:'-' }}</p>
+        <p>
+            <strong>{% trans 'Labels' %}:</strong>
+            {% if object.labels.all %}
+                {{ object.labels.all|join:', ' }}
+            {% else %}
+                -
+            {% endif %}
+        </p>
         <p><strong>{% trans 'Created at' %}:</strong> {{ object.created_at|date:'d.m.Y H:i' }}</p>
     </div>
 </div>
