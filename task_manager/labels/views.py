@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
+from django.utils.translation import gettext as _
 from django.views.generic import CreateView, DeleteView, ListView, UpdateView
 
 from .forms import LabelForm
@@ -21,13 +22,13 @@ class LabelCreateView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('labels_index')
 
     def form_valid(self, form):
-        messages.success(self.request, 'Метка успешно создана')
+        messages.success(self.request, _('Label has been created successfully'))
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Создать метку'
-        context['submit_label'] = 'Создать'
+        context['title'] = _('Create label')
+        context['submit_label'] = _('Create')
         return context
 
 
@@ -38,13 +39,13 @@ class LabelUpdateView(LoginRequiredMixin, UpdateView):
     success_url = reverse_lazy('labels_index')
 
     def form_valid(self, form):
-        messages.success(self.request, 'Метка успешно изменена')
+        messages.success(self.request, _('Label has been updated successfully'))
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Изменить метку'
-        context['submit_label'] = 'Изменить'
+        context['title'] = _('Update label')
+        context['submit_label'] = _('Update')
         return context
 
 
@@ -55,9 +56,9 @@ class LabelDeleteView(LoginRequiredMixin, DeleteView):
 
     def form_valid(self, form):
         if self.object.tasks.exists():
-            messages.error(self.request, 'Невозможно удалить метку')
+            messages.error(self.request, _('Cannot delete label'))
             return redirect('labels_index')
 
-        messages.success(self.request, 'Метка успешно удалена')
+        messages.success(self.request, _('Label has been deleted successfully'))
         return super().form_valid(form)
 

@@ -262,3 +262,33 @@ msgstr "Вы залогинены"
 #: task_manager/views.py:29
 msgid "You are logged out"
 msgstr "Вы разлогинены"
+
+#: task_manager/labels/views.py:24
+msgid "Label has been created successfully"
+msgstr "Метка успешно создана"
+
+#: task_manager/labels/views.py:29 task_manager/templates/labels/index.html:9
+msgid "Create label"
+msgstr "Создать метку"
+
+#: task_manager/labels/views.py:40
+msgid "Label has been updated successfully"
+msgstr "Метка успешно изменена"
+
+#: task_manager/labels/views.py:45
+msgid "Update label"
+msgstr "Изменение метки"
+
+#: task_manager/labels/views.py:56
+msgid "Cannot delete label"
+msgstr "Невозможно удалить метку"
+
+#: task_manager/labels/views.py:59
+msgid "Label has been deleted successfully"
+msgstr "Метка успешно удалена"
+
+#: task_manager/templates/labels/delete.html:4
+#: task_manager/templates/labels/delete.html:7
+msgid "Delete label"
+msgstr "Удаление метки"
+

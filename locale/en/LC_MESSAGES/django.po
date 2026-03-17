@@ -260,3 +260,33 @@ msgstr "You are logged in"
 #: task_manager/views.py:29
 msgid "You are logged out"
 msgstr "You are logged out"
+
+#: task_manager/labels/views.py:24
+msgid "Label has been created successfully"
+msgstr "Label has been created successfully"
+
+#: task_manager/labels/views.py:29 task_manager/templates/labels/index.html:9
+msgid "Create label"
+msgstr "Create label"
+
+#: task_manager/labels/views.py:40
+msgid "Label has been updated successfully"
+msgstr "Label has been updated successfully"
+
+#: task_manager/labels/views.py:45
+msgid "Update label"
+msgstr "Update label"
+
+#: task_manager/labels/views.py:56
+msgid "Cannot delete label"
+msgstr "Cannot delete label"
+
+#: task_manager/labels/views.py:59
+msgid "Label has been deleted successfully"
+msgstr "Label has been deleted successfully"
+
+#: task_manager/templates/labels/delete.html:4
+#: task_manager/templates/labels/delete.html:7
+msgid "Delete label"
+msgstr "Delete label"
+

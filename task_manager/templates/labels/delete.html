@@ -1,13 +1,14 @@
 {% extends 'base.html' %}
+{% load i18n %}
 
-{% block title %}Удаление метки{% endblock %}
+{% block title %}{% trans 'Delete label' %}{% endblock %}
 
 {% block content %}
-<h1 class="mb-4">Удаление метки</h1>
-<p>Вы уверены, что хотите удалить {{ object.name }}?</p>
+<h1 class="mb-4">{% trans 'Delete label' %}</h1>
+<p>{% blocktrans with name=object.name %}Are you sure you want to delete {{ name }}?{% endblocktrans %}</p>
 <form method="post">
     {% csrf_token %}
-    <button class="btn btn-danger" type="submit">Да, удалить</button>
+    <button class="btn btn-danger" type="submit">{% trans 'Yes, delete' %}</button>
 </form>
 {% endblock %}
 
