@@ -184,6 +184,75 @@ msgstr "Update user"
 msgid "User has been deleted successfully"
 msgstr "User has been deleted successfully"
 
+#: task_manager/tasks/forms.py:11
+msgid "Labels"
+msgstr "Labels"
+
+#: task_manager/tasks/forms.py:18 task_manager/tasks/models.py:18
+#: task_manager/templates/tasks/detail.html:10
+msgid "Description"
+msgstr "Description"
+
+#: task_manager/tasks/forms.py:19 task_manager/tasks/models.py:24
+#: task_manager/templates/tasks/detail.html:11
+#: task_manager/templates/tasks/index.html:13
+msgid "Status"
+msgstr "Status"
+
+#: task_manager/tasks/forms.py:20 task_manager/tasks/models.py:38
+#: task_manager/templates/tasks/detail.html:13
+#: task_manager/templates/tasks/index.html:15
+msgid "Executor"
+msgstr "Executor"
+
+#: task_manager/tasks/models.py:31
+#: task_manager/templates/tasks/detail.html:12
+#: task_manager/templates/tasks/index.html:14
+msgid "Author"
+msgstr "Author"
+
+#: task_manager/tasks/mixins.py:16
+msgid "A task can only be deleted by its author"
+msgstr "A task can only be deleted by its author"
+
+#: task_manager/tasks/views.py:29
+msgid "Task has been created successfully"
+msgstr "Task has been created successfully"
+
+#: task_manager/tasks/views.py:34 task_manager/templates/tasks/index.html:8
+msgid "Create task"
+msgstr "Create task"
+
+#: task_manager/tasks/views.py:46
+msgid "Task has been updated successfully"
+msgstr "Task has been updated successfully"
+
+#: task_manager/tasks/views.py:51
+msgid "Update task"
+msgstr "Update task"
+
+#: task_manager/tasks/views.py:62
+msgid "Task has been deleted successfully"
+msgstr "Task has been deleted successfully"
+
+#: task_manager/templates/base.html:30 task_manager/templates/tasks/index.html:4
+#: task_manager/templates/tasks/index.html:7
+msgid "Tasks"
+msgstr "Tasks"
+
+#: task_manager/templates/tasks/delete.html:4
+#: task_manager/templates/tasks/delete.html:7
+msgid "Delete task"
+msgstr "Delete task"
+
+#: task_manager/templates/tasks/index.html:30
+msgid "Show"
+msgstr "Show"
+
+#: task_manager/users/views.py:65
+msgid "Cannot delete user"
+msgstr "Cannot delete user"
+
 #: task_manager/views.py:17
 msgid "You are logged in"
 msgstr "You are logged in"

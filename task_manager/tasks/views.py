@@ -1,0 +1,66 @@
+from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.urls import reverse_lazy
+from django.utils.translation import gettext as _
+from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
+
+from .forms import TaskForm
+from .mixins import TaskAuthorOnlyMixin
+from .models import Task
+
+
+class TaskListView(LoginRequiredMixin, ListView):
+    model = Task
+    template_name = 'tasks/index.html'
+    context_object_name = 'tasks'
+
+
+class TaskDetailView(LoginRequiredMixin, DetailView):
+    model = Task
+    template_name = 'tasks/detail.html'
+
+
+class TaskCreateView(LoginRequiredMixin, CreateView):
+    model = Task
+    form_class = TaskForm
+    template_name = 'tasks/form.html'
+    success_url = reverse_lazy('tasks_index')
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        messages.success(self.request, _('Task has been created successfully'))
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = _('Create task')
+        context['submit_label'] = _('Create')
+        return context
+
+
+class TaskUpdateView(LoginRequiredMixin, UpdateView):
+    model = Task
+    form_class = TaskForm
+    template_name = 'tasks/form.html'
+    success_url = reverse_lazy('tasks_index')
+
+    def form_valid(self, form):
+        messages.success(self.request, _('Task has been updated successfully'))
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = _('Update task')
+        context['submit_label'] = _('Update')
+        return context
+
+
+class TaskDeleteView(LoginRequiredMixin, TaskAuthorOnlyMixin, DeleteView):
+    model = Task
+    template_name = 'tasks/delete.html'
+    success_url = reverse_lazy('tasks_index')
+
+    def form_valid(self, form):
+        messages.success(self.request, _('Task has been deleted successfully'))
+        return super().form_valid(form)
+

@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{{ object.name }}{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">{{ object.name }}</h1>
+<div class="card">
+    <div class="card-body">
+        <p><strong>{% trans 'Description' %}:</strong> {{ object.description|default:'-' }}</p>
+        <p><strong>{% trans 'Status' %}:</strong> {{ object.status.name }}</p>
+        <p><strong>{% trans 'Author' %}:</strong> {{ object.author.get_full_name|default:object.author.username }}</p>
+        <p><strong>{% trans 'Executor' %}:</strong> {{ object.executor.get_full_name|default:object.executor.username|default:'-' }}</p>
+        <p><strong>{% trans 'Created at' %}:</strong> {{ object.created_at|date:'d.m.Y H:i' }}</p>
+    </div>
+</div>
+{% endblock %}
+

@@ -27,6 +27,7 @@
                 <li class="nav-item"><a class="nav-link" href="{% url 'users_index' %}">{% trans 'Users' %}</a></li>
                 {% if user.is_authenticated %}
                 <li class="nav-item"><a class="nav-link" href="{% url 'statuses_index' %}">{% trans 'Statuses' %}</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'tasks_index' %}">{% trans 'Tasks' %}</a></li>
                 <li class="nav-item">
                     <form action="{% url 'logout' %}" method="post" class="d-inline mb-0">
                         {% csrf_token %}
