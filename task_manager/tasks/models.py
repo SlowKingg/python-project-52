@@ -40,6 +40,12 @@ class Task(models.Model):
         blank=True,
         null=True,
     )
+    labels = models.ManyToManyField(
+        'labels.Label',
+        related_name='tasks',
+        verbose_name=_('Labels'),
+        blank=True,
+    )
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
