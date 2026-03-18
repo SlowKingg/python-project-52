@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
-from django_filters import FilterSet, ModelChoiceFilter, BooleanFilter
+from django_filters import BooleanFilter, FilterSet, ModelChoiceFilter
 
 from task_manager.labels.models import Label
 from task_manager.statuses.models import Status
@@ -14,20 +14,20 @@ User = get_user_model()
 class TaskFilterSet(FilterSet):
     status = ModelChoiceFilter(
         queryset=Status.objects.all(),
-        label=_('Status'),
+        label=_("Status"),
     )
     executor = ModelChoiceFilter(
-        queryset=User.objects.order_by('id'),
-        label=_('Executor'),
+        queryset=User.objects.order_by("id"),
+        label=_("Executor"),
     )
     labels = ModelChoiceFilter(
         queryset=Label.objects.all(),
-        label=_('Label'),
+        label=_("Label"),
         distinct=True,
     )
     self_tasks = BooleanFilter(
-        label=_('Only own tasks'),
-        method='filter_self_tasks',
+        label=_("Only own tasks"),
+        method="filter_self_tasks",
         widget=forms.CheckboxInput,
     )
 
@@ -39,5 +39,3 @@ class TaskFilterSet(FilterSet):
         if value and self.request and self.request.user.is_authenticated:
             return queryset.filter(author=self.request.user)
         return queryset
-
-

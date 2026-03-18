@@ -5,10 +5,13 @@ from django.utils import translation
 
 
 class DefaultLanguageLocaleMiddleware(LocaleMiddleware):
-    """Prefer explicit user choice; otherwise fall back to project default language."""
+    """Prefer explicit user choice.
+
+    Otherwise fall back to the project default language.
+    """
 
     def process_request(self, request):
-        urlconf = getattr(request, 'urlconf', settings.ROOT_URLCONF)
+        urlconf = getattr(request, "urlconf", settings.ROOT_URLCONF)
         i18n_patterns_used, _ = is_language_prefix_patterns_used(urlconf)
 
         language = None
@@ -16,7 +19,11 @@ class DefaultLanguageLocaleMiddleware(LocaleMiddleware):
             language = translation.get_language_from_path(request.path_info)
 
         language_cookie = request.COOKIES.get(settings.LANGUAGE_COOKIE_NAME)
-        if not language and language_cookie and translation.check_for_language(language_cookie):
+        if (
+            not language
+            and language_cookie
+            and translation.check_for_language(language_cookie)
+        ):
             language = language_cookie
 
         if not language:

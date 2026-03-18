@@ -18,40 +18,42 @@ from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-load_dotenv(BASE_DIR / '.env')
+load_dotenv(BASE_DIR / ".env")
 
 
 def get_env_bool(name, default=False):
     value = os.getenv(name)
     if value is None:
         return default
-    return value.strip().lower() in {'1', 'true', 'yes', 'on'}
+    return value.strip().lower() in {"1", "true", "yes", "on"}
 
 
-def get_env_list(name, default=''):
+def get_env_list(name, default=""):
     value = os.getenv(name, default)
-    return [item.strip() for item in value.split(',') if item.strip()]
+    return [item.strip() for item in value.split(",") if item.strip()]
 
 
 def get_postgres_from_url(database_url):
     parsed = urlparse(database_url)
-    if parsed.scheme not in {'postgres', 'postgresql'}:
-        raise ValueError('DATABASE_URL must start with postgres:// or postgresql://')
+    if parsed.scheme not in {"postgres", "postgresql"}:
+        raise ValueError(
+            "DATABASE_URL must start with postgres:// or postgresql://"
+        )
 
     db_config: dict[str, object] = {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': unquote(parsed.path.lstrip('/')),
-        'USER': unquote(parsed.username or ''),
-        'PASSWORD': unquote(parsed.password or ''),
-        'HOST': parsed.hostname or 'localhost',
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": unquote(parsed.path.lstrip("/")),
+        "USER": unquote(parsed.username or ""),
+        "PASSWORD": unquote(parsed.password or ""),
+        "HOST": parsed.hostname or "localhost",
     }
 
     if parsed.port:
-        db_config['PORT'] = str(parsed.port)
+        db_config["PORT"] = str(parsed.port)
 
     query = parse_qs(parsed.query)
-    if 'sslmode' in query and query['sslmode']:
-        db_config['OPTIONS'] = {'sslmode': query['sslmode'][0]}
+    if "sslmode" in query and query["sslmode"]:
+        db_config["OPTIONS"] = {"sslmode": query["sslmode"][0]}
 
     return db_config
 
@@ -60,119 +62,134 @@ def get_postgres_from_url(database_url):
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-c0-@^c=&+3c-=6kn_$m#_w%w0@yorfhhnqr57mhu8=z$z0at2b')
+SECRET_KEY = os.getenv(
+    "SECRET_KEY",
+    "django-insecure-c0-@^c=&+3c-=6kn_$m#_w%w0@yorfhhnqr57mhu8=z$z0at2b",
+)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = get_env_bool('DEBUG', default=os.getenv('DJANGO_ENV', 'development') != 'production')
+DEBUG = get_env_bool(
+    "DEBUG", default=os.getenv("DJANGO_ENV", "development") != "production"
+)
 
-ROLLBAR_ACCESS_TOKEN = os.getenv('ROLLBAR_ACCESS_TOKEN', '').strip()
-ROLLBAR_ENVIRONMENT = os.getenv('ROLLBAR_ENVIRONMENT', os.getenv('DJANGO_ENV', 'development'))
-ROLLBAR_CODE_VERSION = os.getenv('ROLLBAR_CODE_VERSION') or os.getenv('RENDER_GIT_COMMIT', '')[:7]
-ROLLBAR_ENABLED = get_env_bool('ROLLBAR_ENABLED', default=bool(ROLLBAR_ACCESS_TOKEN) and not DEBUG)
+ROLLBAR_ACCESS_TOKEN = os.getenv("ROLLBAR_ACCESS_TOKEN", "").strip()
+ROLLBAR_ENVIRONMENT = os.getenv(
+    "ROLLBAR_ENVIRONMENT", os.getenv("DJANGO_ENV", "development")
+)
+ROLLBAR_CODE_VERSION = (
+    os.getenv("ROLLBAR_CODE_VERSION") or os.getenv("RENDER_GIT_COMMIT", "")[:7]
+)
+ROLLBAR_ENABLED = get_env_bool(
+    "ROLLBAR_ENABLED", default=bool(ROLLBAR_ACCESS_TOKEN) and not DEBUG
+)
 
 ALLOWED_HOSTS = get_env_list(
-    'ALLOWED_HOSTS',
-    default='localhost,127.0.0.1,webserver,testserver',
+    "ALLOWED_HOSTS",
+    default="localhost,127.0.0.1,webserver,testserver",
 )
 
 
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'django_filters',
-    'django_bootstrap5',
-    'task_manager.users',
-    'task_manager.statuses',
-    'task_manager.labels',
-    'task_manager.tasks',
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
+    "django_filters",
+    "django_bootstrap5",
+    "task_manager.users",
+    "task_manager.statuses",
+    "task_manager.labels",
+    "task_manager.tasks",
 ]
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'task_manager.locale_middleware.DefaultLanguageLocaleMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "django.middleware.security.SecurityMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    "task_manager.locale_middleware.DefaultLanguageLocaleMiddleware",
+    "django.middleware.common.CommonMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
 ROLLBAR = {
-    'access_token': ROLLBAR_ACCESS_TOKEN,
-    'environment': ROLLBAR_ENVIRONMENT,
-    'root': str(BASE_DIR),
-    'code_version': ROLLBAR_CODE_VERSION,
-    'enabled': ROLLBAR_ENABLED and bool(ROLLBAR_ACCESS_TOKEN),
+    "access_token": ROLLBAR_ACCESS_TOKEN,
+    "environment": ROLLBAR_ENVIRONMENT,
+    "root": str(BASE_DIR),
+    "code_version": ROLLBAR_CODE_VERSION,
+    "enabled": ROLLBAR_ENABLED and bool(ROLLBAR_ACCESS_TOKEN),
 }
 
-if ROLLBAR['enabled']:
-    MIDDLEWARE.append('task_manager.rollbar_middleware.CustomRollbarNotifierMiddleware')
+if ROLLBAR["enabled"]:
+    MIDDLEWARE.append(
+        "task_manager.rollbar_middleware.CustomRollbarNotifierMiddleware"
+    )
 
-ROOT_URLCONF = 'task_manager.urls'
+ROOT_URLCONF = "task_manager.urls"
 
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'task_manager' / 'templates'],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": [BASE_DIR / "task_manager" / "templates"],
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "context_processors": [
+                "django.template.context_processors.request",
+                "django.contrib.auth.context_processors.auth",
+                "django.contrib.messages.context_processors.messages",
             ],
         },
     },
 ]
 
-WSGI_APPLICATION = 'task_manager.wsgi.application'
+WSGI_APPLICATION = "task_manager.wsgi.application"
 
 
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
-database_url = os.getenv('DATABASE_URL')
-postgres_db = os.getenv('POSTGRES_DB')
+database_url = os.getenv("DATABASE_URL")
+postgres_db = os.getenv("POSTGRES_DB")
 
 if database_url:
     database_config = get_postgres_from_url(database_url)
 elif postgres_db:
     database_config = {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': postgres_db,
-        'USER': os.getenv('POSTGRES_USER', ''),
-        'PASSWORD': os.getenv('POSTGRES_PASSWORD', ''),
-        'HOST': os.getenv('POSTGRES_HOST', 'localhost'),
-        'PORT': os.getenv('POSTGRES_PORT', '5432'),
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": postgres_db,
+        "USER": os.getenv("POSTGRES_USER", ""),
+        "PASSWORD": os.getenv("POSTGRES_PASSWORD", ""),
+        "HOST": os.getenv("POSTGRES_HOST", "localhost"),
+        "PORT": os.getenv("POSTGRES_PORT", "5432"),
     }
 else:
     database_config = {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
     }
 
-DATABASES = {'default': database_config}
+DATABASES = {"default": database_config}
 
 
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
 
+PASSWORD_VALIDATION_MODULE = "django.contrib.auth.password_validation"
+
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        "NAME": f"{PASSWORD_VALIDATION_MODULE}.MinimumLengthValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        "NAME": f"{PASSWORD_VALIDATION_MODULE}.CommonPasswordValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        "NAME": f"{PASSWORD_VALIDATION_MODULE}.NumericPasswordValidator",
     },
 ]
 
@@ -180,18 +197,18 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/6.0/topics/i18n/
 
-LANGUAGE_CODE = 'ru'
+LANGUAGE_CODE = "ru"
 
 LANGUAGES = [
-    ('en', 'English'),
-    ('ru', 'Russian'),
+    ("en", "English"),
+    ("ru", "Russian"),
 ]
 
 LOCALE_PATHS = [
-    BASE_DIR / 'locale',
+    BASE_DIR / "locale",
 ]
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = "UTC"
 
 USE_I18N = True
 
@@ -201,9 +218,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
-STATIC_URL = 'static/'
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATIC_URL = "static/"
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
-LOGIN_URL = 'login'
-LOGIN_REDIRECT_URL = 'index'
-
+LOGIN_URL = "login"
+LOGIN_REDIRECT_URL = "index"

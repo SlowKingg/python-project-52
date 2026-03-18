@@ -11,7 +11,7 @@ User = get_user_model()
 
 class ExecutorChoiceField(forms.ModelChoiceField):
     def label_from_instance(self, obj):
-        full_name = f'{obj.first_name} {obj.last_name}'.strip()
+        full_name = f"{obj.first_name} {obj.last_name}".strip()
         return full_name or obj.username
 
 
@@ -19,24 +19,23 @@ class TaskForm(forms.ModelForm):
     executor = ExecutorChoiceField(
         queryset=User.objects.all(),
         required=False,
-        label=_('Executor'),
+        label=_("Executor"),
     )
 
     labels = forms.ModelMultipleChoiceField(
         queryset=Label.objects.all(),
         required=False,
-        label=_('Labels'),
+        label=_("Labels"),
         widget=forms.SelectMultiple,
     )
 
     class Meta:
         model = Task
-        fields = ('name', 'description', 'status', 'executor', 'labels')
+        fields = ("name", "description", "status", "executor", "labels")
         labels = {
-            'name': _('Name'),
-            'description': _('Description'),
-            'status': _('Status'),
-            'executor': _('Executor'),
-            'labels': _('Labels'),
+            "name": _("Name"),
+            "description": _("Description"),
+            "status": _("Status"),
+            "executor": _("Executor"),
+            "labels": _("Labels"),
         }
-

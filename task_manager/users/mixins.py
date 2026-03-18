@@ -13,6 +13,8 @@ class CurrentUserOnlyMixin(UserPassesTestMixin):
     def handle_no_permission(self):
         if not self.request.user.is_authenticated:
             return super().handle_no_permission()
-        messages.error(self.request, _('You do not have permission to update another user.'))
-        return redirect('users_index')
-
+        messages.error(
+            self.request,
+            _("You do not have permission to update another user."),
+        )
+        return redirect("users_index")

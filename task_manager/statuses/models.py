@@ -6,16 +6,15 @@ class Status(models.Model):
     name = models.CharField(
         max_length=255,
         unique=True,
-        verbose_name=_('Name'),
+        verbose_name=_("Name"),
         error_messages={
-            'unique': _('already exists'),
+            "unique": _("already exists"),
         },
     )
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        ordering = ('id',)
+        ordering = ("id",)
 
     def __str__(self):
         return self.name
-
