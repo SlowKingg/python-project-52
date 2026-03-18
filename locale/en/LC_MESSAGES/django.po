@@ -87,7 +87,6 @@ msgstr "Log out"
 #: task_manager/templates/base.html:37
 #: task_manager/templates/registration/login.html:4
 #: task_manager/templates/registration/login.html:7
-#: task_manager/templates/registration/login.html:11
 msgid "Log in"
 msgstr "Log in"
 
@@ -95,6 +94,14 @@ msgstr "Log in"
 #: task_manager/users/views.py:31
 msgid "Sign up"
 msgstr "Sign up"
+
+#: task_manager/templates/registration/login.html:11
+msgid "Sign in"
+msgstr "Sign in"
+
+#: task_manager/templates/index.html:11
+msgid "Create account"
+msgstr "Create account"
 
 #: task_manager/templates/index.html:10
 msgid "Welcome to the Task Manager - an educational Django project."

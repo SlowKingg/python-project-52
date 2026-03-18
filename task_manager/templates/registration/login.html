@@ -8,7 +8,7 @@
 <form method="post">
     {% csrf_token %}
     {% bootstrap_form form %}
-    {% trans 'Log in' as login_label %}
+    {% trans 'Sign in' as login_label %}
     {% bootstrap_button login_label button_type='submit' button_class='btn btn-primary' %}
 </form>
 {% endblock %}

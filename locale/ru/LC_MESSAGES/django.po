@@ -89,7 +89,6 @@ msgstr "Выход"
 #: task_manager/templates/base.html:37
 #: task_manager/templates/registration/login.html:4
 #: task_manager/templates/registration/login.html:7
-#: task_manager/templates/registration/login.html:11
 msgid "Log in"
 msgstr "Вход"
 
@@ -97,6 +96,14 @@ msgstr "Вход"
 #: task_manager/users/views.py:31
 msgid "Sign up"
 msgstr "Регистрация"
+
+#: task_manager/templates/registration/login.html:11
+msgid "Sign in"
+msgstr "Войти"
+
+#: task_manager/templates/index.html:11
+msgid "Create account"
+msgstr "Создать аккаунт"
 
 #: task_manager/templates/index.html:10
 msgid "Welcome to the Task Manager - an educational Django project."
