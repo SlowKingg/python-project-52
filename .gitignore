@@ -1,23 +1,28 @@
-staticfiles/
-
-# Python cache and bytecode
+# ─── Python ───────────────────────────────────────────────────────────────────
 __pycache__/
 *.py[cod]
+*.pyo
 
-# Local environment and IDE
+# ─── Virtual Environment ──────────────────────────────────────────────────────
 .venv/
-.idea/
-.env
 
-# Local SQLite database
+# ─── Django ───────────────────────────────────────────────────────────────────
 db.sqlite3
+staticfiles/
 
+# ─── Environment & Secrets ────────────────────────────────────────────────────
+.env
+.env.*
 
-# Node / Playwright
+# ─── IDE / Editor ─────────────────────────────────────────────────────────────
+.idea/
+.vscode/
+
+# ─── Node / Playwright ────────────────────────────────────────────────────────
 node_modules/
+package.json
+package-lock.json
+playwright.config.ts
 playwright-report/
 test-results/
-__tests__
-playwright.config.ts
-/package.json
-/package-lock.json
+__tests__/
