@@ -24,16 +24,16 @@ check:
 	uv run python manage.py check
 
 ruff-check:
-	uvx ruff check .
+	uv run ruff check .
 
 ruff-check-fix:
-	uvx ruff check --fix .
+	uv run ruff check --fix .
 
 ruff-format:
-	uvx ruff format .
+	uv run ruff format .
 
 ruff-format-check:
-	uvx ruff format --check .
+	uv run ruff format --check .
 
 makemessages:
 	uv run django-admin makemessages -l ru -l en
