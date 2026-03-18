@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth.views import LoginView, LogoutView
+from django.http import HttpResponse
 from django.shortcuts import render
 from django.utils.translation import gettext_lazy as _
 from django.urls import reverse_lazy
@@ -28,5 +29,12 @@ class LogoutPageView(LogoutView):
         if was_authenticated:
             messages.success(request, _('You are logged out'))
         return response
+
+
+def test_error(request):
+    """Trigger a test error for Rollbar."""
+    a = None
+    a.hello()
+    return HttpResponse('This will not be reached')
 
 

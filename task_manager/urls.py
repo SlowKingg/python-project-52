@@ -6,6 +6,7 @@ from task_manager import views
 urlpatterns = [
     path('i18n/', include('django.conf.urls.i18n')),
     path('', views.index, name='index'),
+    path('test-error/', views.test_error, name='test_error'),
     path('login/', views.LoginPageView.as_view(), name='login'),
     path('logout/', views.LogoutPageView.as_view(), name='logout'),
     path('', include('task_manager.users.urls')),

@@ -113,7 +113,7 @@ ROLLBAR = {
 }
 
 if ROLLBAR['enabled']:
-    MIDDLEWARE.append('rollbar.contrib.django.middleware.RollbarNotifierMiddleware')
+    MIDDLEWARE.append('task_manager.rollbar_middleware.CustomRollbarNotifierMiddleware')
 
 ROOT_URLCONF = 'task_manager.urls'
 
