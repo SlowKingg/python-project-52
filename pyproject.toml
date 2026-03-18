@@ -9,4 +9,5 @@ dependencies = [
     "gunicorn>=23.0.0",
     "psycopg[binary]>=3.2.10",
     "python-dotenv>=1.1.1",
+    "rollbar>=1.3.0",
 ]

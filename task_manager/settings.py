@@ -65,6 +65,11 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-c0-@^c=&+3c-=6kn_$m#_w%w0@
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = get_env_bool('DEBUG', default=os.getenv('DJANGO_ENV', 'development') != 'production')
 
+ROLLBAR_ACCESS_TOKEN = os.getenv('ROLLBAR_ACCESS_TOKEN', '').strip()
+ROLLBAR_ENVIRONMENT = os.getenv('ROLLBAR_ENVIRONMENT', os.getenv('DJANGO_ENV', 'development'))
+ROLLBAR_CODE_VERSION = os.getenv('ROLLBAR_CODE_VERSION', '')
+ROLLBAR_ENABLED = get_env_bool('ROLLBAR_ENABLED', default=bool(ROLLBAR_ACCESS_TOKEN) and not DEBUG)
+
 ALLOWED_HOSTS = get_env_list(
     'ALLOWED_HOSTS',
     default='localhost,127.0.0.1,webserver,testserver',
@@ -98,6 +103,17 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+ROLLBAR = {
+    'access_token': ROLLBAR_ACCESS_TOKEN,
+    'environment': ROLLBAR_ENVIRONMENT,
+    'root': str(BASE_DIR),
+    'code_version': ROLLBAR_CODE_VERSION,
+    'enabled': ROLLBAR_ENABLED and bool(ROLLBAR_ACCESS_TOKEN),
+}
+
+if ROLLBAR['enabled']:
+    MIDDLEWARE.append('rollbar.contrib.django.middleware.RollbarNotifierMiddleware')
 
 ROOT_URLCONF = 'task_manager.urls'
 

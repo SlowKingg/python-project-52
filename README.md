@@ -28,3 +28,42 @@ cp .env.example .env
 - `DEBUG` - `True/False`
 - `SECRET_KEY` - секретный ключ Django
 - `ALLOWED_HOSTS` - список хостов через запятую
+
+## Rollbar (эксплуатация)
+
+1. Создайте проект в Rollbar и получите `post_server_item` token.
+2. Добавьте переменные окружения в Render (или другой hosting):
+
+   - `ROLLBAR_ACCESS_TOKEN` - токен из Rollbar
+   - `ROLLBAR_ENVIRONMENT` - например, `production`
+   - `ROLLBAR_ENABLED` - `True`
+   - `ROLLBAR_CODE_VERSION` - версия релиза (например, git SHA)
+
+3. Задеплойте приложение с этими переменными.
+
+Проверка доставки ошибки:
+
+1. Войдите в Rollbar UI и откройте раздел `Items`.
+2. В продакшене вызовите контролируемую ошибку (например, временно выполните в Django shell):
+
+```bash
+uv run python manage.py shell <<'PY'
+import rollbar
+from django.conf import settings
+
+rollbar.init(
+    settings.ROLLBAR_ACCESS_TOKEN,
+    settings.ROLLBAR_ENVIRONMENT,
+    code_version=settings.ROLLBAR_CODE_VERSION,
+    root=str(settings.BASE_DIR),
+)
+
+try:
+    1 / 0
+except Exception:
+    rollbar.report_exc_info()
+PY
+```
+
+3. Убедитесь, что событие появилось в Rollbar.
+
