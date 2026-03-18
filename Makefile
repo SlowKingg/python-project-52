@@ -1,5 +1,5 @@
 # Build script for deployment
-.PHONY: build install collectstatic migrate render-start runserver check makemessages compilemessages
+.PHONY: build install collectstatic migrate render-start runserver check makemessages compilemessages ruff-check ruff-check-fix ruff-format ruff-format-check
 
 build:
 	./build.sh
@@ -22,6 +22,18 @@ runserver:
 
 check:
 	uv run python manage.py check
+
+ruff-check:
+	uvx ruff check .
+
+ruff-check-fix:
+	uvx ruff check --fix .
+
+ruff-format:
+	uvx ruff format .
+
+ruff-format-check:
+	uvx ruff format --check .
 
 makemessages:
 	uv run django-admin makemessages -l ru -l en
