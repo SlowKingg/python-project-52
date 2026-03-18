@@ -190,6 +190,14 @@ msgstr "Пользователь успешно удален"
 msgid "Labels"
 msgstr "Метки"
 
+#: task_manager/tasks/forms.py:40
+msgid "Label"
+msgstr "Метка"
+
+#: task_manager/tasks/forms.py:44
+msgid "Only own tasks"
+msgstr "Только свои задачи"
+
 #: task_manager/tasks/forms.py:18 task_manager/tasks/models.py:18
 #: task_manager/tasks/templates/tasks/detail.html:10
 msgid "Description"

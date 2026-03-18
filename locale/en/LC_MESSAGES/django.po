@@ -188,6 +188,14 @@ msgstr "User has been deleted successfully"
 msgid "Labels"
 msgstr "Labels"
 
+#: task_manager/tasks/forms.py:40
+msgid "Label"
+msgstr "Label"
+
+#: task_manager/tasks/forms.py:44
+msgid "Only own tasks"
+msgstr "Only own tasks"
+
 #: task_manager/tasks/forms.py:18 task_manager/tasks/models.py:18
 #: task_manager/templates/tasks/detail.html:10
 msgid "Description"

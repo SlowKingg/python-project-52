@@ -1,11 +1,30 @@
 {% extends 'base.html' %}
-{% load i18n %}
+{% load i18n django_bootstrap5 %}
 
 {% block title %}{% trans 'Tasks' %}{% endblock %}
 
 {% block content %}
 <h1 class="mb-4">{% trans 'Tasks' %}</h1>
 <a class="btn btn-primary mb-3" href="{% url 'tasks_create' %}">{% trans 'Create task' %}</a>
+<form method="get" class="card card-body mb-3">
+    <div class="d-flex flex-column gap-3">
+        <div>
+            {% bootstrap_field filter_form.status %}
+        </div>
+        <div>
+            {% bootstrap_field filter_form.executor %}
+        </div>
+        <div>
+            {% bootstrap_field filter_form.labels %}
+        </div>
+        <div>
+            {% bootstrap_field filter_form.self_tasks %}
+        </div>
+        <div>
+            <button type="submit" class="btn btn-primary">{% trans 'Show' %}</button>
+        </div>
+    </div>
+</form>
 <table class="table table-striped">
     <thead>
         <tr>
@@ -25,7 +44,13 @@
             <td>{{ task.name }}</td>
             <td>{{ task.status.name }}</td>
             <td>{{ task.author.get_full_name|default:task.author.username }}</td>
-            <td>{{ task.executor.get_full_name|default:task.executor.username|default:'-' }}</td>
+            <td>
+                {% if task.executor %}
+                    {{ task.executor.get_full_name|default:task.executor.username }}
+                {% else %}
+                    -
+                {% endif %}
+            </td>
             <td>{{ task.created_at|date:'d.m.Y H:i' }}</td>
             <td>
                 <a href="{% url 'tasks_detail' task.pk %}">{% trans 'Show' %}</a>

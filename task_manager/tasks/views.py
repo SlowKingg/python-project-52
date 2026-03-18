@@ -2,17 +2,31 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.utils.translation import gettext as _
-from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
+from django.views.generic import CreateView, DeleteView, DetailView, UpdateView
+from django_filters.views import FilterView
 
+from .filters import TaskFilterSet
 from .forms import TaskForm
 from .mixins import TaskAuthorOnlyMixin
 from .models import Task
 
 
-class TaskListView(LoginRequiredMixin, ListView):
-    model = Task
+class TaskListView(LoginRequiredMixin, FilterView):
     template_name = 'tasks/index.html'
     context_object_name = 'tasks'
+    filterset_class = TaskFilterSet
+
+    def get_queryset(self):
+        return (
+            Task.objects
+            .select_related('status', 'author', 'executor')
+            .prefetch_related('labels')
+        )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['filter_form'] = context['filter'].form
+        return context
 
 
 class TaskDetailView(LoginRequiredMixin, DetailView):
