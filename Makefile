@@ -1,5 +1,5 @@
 # Build script for deployment
-.PHONY: build install collectstatic migrate render-start check makemessages compilemessages
+.PHONY: build install collectstatic migrate render-start runserver check makemessages compilemessages
 
 build:
 	./build.sh
@@ -15,7 +15,10 @@ migrate:
 
 # Start production server on Render.com
 render-start:
-	uv run gunicorn task_manager.wsgi:application --bind 0.0.0.0:$${PORT:-8000}
+	./scripts/with_rollbar_version.sh uv run gunicorn task_manager.wsgi:application --bind 0.0.0.0:$${PORT:-8000}
+
+runserver:
+	./scripts/with_rollbar_version.sh uv run python manage.py runserver 0.0.0.0:$${PORT:-8000}
 
 check:
 	uv run python manage.py check

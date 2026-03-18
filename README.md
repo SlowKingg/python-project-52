@@ -8,6 +8,7 @@
 - Start Command: `make render-start`
 - Переменная `PORT` задается Render автоматически; сервер слушает `0.0.0.0:$PORT`.
 - Для production добавьте домен Render в `ALLOWED_HOSTS` (например, `task-manager-ou5q.onrender.com`).
+- `ROLLBAR_CODE_VERSION` подставляется автоматически из `RENDER_GIT_COMMIT` (или из git SHA), если не задан вручную.
 
 ## Конфигурация окружения
 
@@ -37,9 +38,21 @@ cp .env.example .env
    - `ROLLBAR_ACCESS_TOKEN` - токен из Rollbar
    - `ROLLBAR_ENVIRONMENT` - например, `production`
    - `ROLLBAR_ENABLED` - `True`
-   - `ROLLBAR_CODE_VERSION` - версия релиза (например, git SHA)
+   - `ROLLBAR_CODE_VERSION` - опционально; если не задан, определяется автоматически
 
 3. Задеплойте приложение с этими переменными.
+
+Автоподстановка версии релиза:
+
+- Скрипт `scripts/with_rollbar_version.sh` выбирает значение в таком порядке:
+  1) уже заданный `ROLLBAR_CODE_VERSION`; 2) `RENDER_GIT_COMMIT` (первые 7 символов); 3) `git rev-parse --short HEAD`; 4) `unknown`.
+- `make render-start` и `make runserver` уже запускаются через этот скрипт.
+
+Локальный запуск с автоподстановкой:
+
+```bash
+make runserver
+```
 
 Проверка доставки ошибки:
 

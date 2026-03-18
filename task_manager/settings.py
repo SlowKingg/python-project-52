@@ -67,7 +67,7 @@ DEBUG = get_env_bool('DEBUG', default=os.getenv('DJANGO_ENV', 'development') != 
 
 ROLLBAR_ACCESS_TOKEN = os.getenv('ROLLBAR_ACCESS_TOKEN', '').strip()
 ROLLBAR_ENVIRONMENT = os.getenv('ROLLBAR_ENVIRONMENT', os.getenv('DJANGO_ENV', 'development'))
-ROLLBAR_CODE_VERSION = os.getenv('ROLLBAR_CODE_VERSION', '')
+ROLLBAR_CODE_VERSION = os.getenv('ROLLBAR_CODE_VERSION') or os.getenv('RENDER_GIT_COMMIT', '')[:7]
 ROLLBAR_ENABLED = get_env_bool('ROLLBAR_ENABLED', default=bool(ROLLBAR_ACCESS_TOKEN) and not DEBUG)
 
 ALLOWED_HOSTS = get_env_list(
