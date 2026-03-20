@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
 import os
+import sys
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -35,6 +36,7 @@ SECRET_KEY = os.getenv(
 DEBUG = get_env_bool(
     "DEBUG", default=os.getenv("DJANGO_ENV", "development") != "production"
 )
+IS_TEST_RUN = any(arg == "test" for arg in sys.argv[1:])
 
 ROLLBAR_ACCESS_TOKEN = os.getenv("ROLLBAR_ACCESS_TOKEN", "").strip()
 ROLLBAR_ENVIRONMENT = os.getenv(
@@ -43,8 +45,11 @@ ROLLBAR_ENVIRONMENT = os.getenv(
 ROLLBAR_CODE_VERSION = (
     os.getenv("ROLLBAR_CODE_VERSION") or os.getenv("RENDER_GIT_COMMIT", "")[:7]
 )
-ROLLBAR_ENABLED = get_env_bool(
-    "ROLLBAR_ENABLED", default=bool(ROLLBAR_ACCESS_TOKEN) and not DEBUG
+ROLLBAR_ENABLED = (
+    get_env_bool(
+        "ROLLBAR_ENABLED", default=bool(ROLLBAR_ACCESS_TOKEN) and not DEBUG
+    )
+    and not IS_TEST_RUN
 )
 
 ALLOWED_HOSTS = get_env_list(
