@@ -14,7 +14,7 @@ GET/POST-запросы к view без реального сервера.
 
 ---
 
-## `task_manager/tests_views.py` — Login / Logout
+## `task_manager/tests.py` — Login / Logout
 
 ### `BaseAuthViewTests`
 
