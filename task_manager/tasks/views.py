@@ -29,7 +29,7 @@ class TaskDetailView(LoginRequiredMixin, DetailView):
 class TaskCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     model = Task
     form_class = TaskForm
-    template_name = "tasks/form.html"
+    template_name = "shared/form.html"
     success_url = reverse_lazy("tasks_index")
     success_message = _("Task has been created successfully")
     extra_context = {
@@ -45,7 +45,7 @@ class TaskCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
 class TaskUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Task
     form_class = TaskForm
-    template_name = "tasks/form.html"
+    template_name = "shared/form.html"
     success_url = reverse_lazy("tasks_index")
     success_message = _("Task has been updated successfully")
     extra_context = {
@@ -56,8 +56,11 @@ class TaskUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
 
 class TaskDeleteView(LoginRequiredMixin, TaskAuthorOnlyMixin, DeleteView):
     model = Task
-    template_name = "tasks/delete.html"
+    template_name = "shared/delete.html"
     success_url = reverse_lazy("tasks_index")
+    extra_context = {
+        "title": _("Delete task"),
+    }
 
     def form_valid(self, form):
         messages.success(self.request, _("Task has been deleted successfully"))

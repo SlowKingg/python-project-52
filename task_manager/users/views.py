@@ -22,7 +22,7 @@ class UserListView(ListView):
 
 class UserCreateView(SuccessMessageMixin, CreateView):
     form_class = UserCreateForm
-    template_name = "users/form.html"
+    template_name = "shared/form.html"
     success_url = reverse_lazy("login")
     success_message = _("User has been registered successfully")
     extra_context = {
@@ -39,7 +39,7 @@ class UserUpdateView(
 ):
     model = User
     form_class = UserCreateForm
-    template_name = "users/form.html"
+    template_name = "shared/form.html"
     success_url = reverse_lazy("users_index")
     success_message = _("User has been updated successfully")
     extra_context = {
@@ -50,8 +50,11 @@ class UserUpdateView(
 
 class UserDeleteView(LoginRequiredMixin, CurrentUserOnlyMixin, DeleteView):
     model = User
-    template_name = "users/delete.html"
+    template_name = "shared/delete.html"
     success_url = reverse_lazy("users_index")
+    extra_context = {
+        "title": _("Delete user"),
+    }
 
     def form_valid(self, form):
         try:

@@ -20,7 +20,7 @@ class LabelListView(LoginRequiredMixin, ListView):
 class LabelCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     model = Label
     form_class = LabelForm
-    template_name = "labels/form.html"
+    template_name = "shared/form.html"
     success_url = reverse_lazy("labels_index")
     success_message = _("Label has been created successfully")
     extra_context = {
@@ -32,7 +32,7 @@ class LabelCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
 class LabelUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Label
     form_class = LabelForm
-    template_name = "labels/form.html"
+    template_name = "shared/form.html"
     success_url = reverse_lazy("labels_index")
     success_message = _("Label has been updated successfully")
     extra_context = {
@@ -43,8 +43,11 @@ class LabelUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
 
 class LabelDeleteView(LoginRequiredMixin, DeleteView):
     model = Label
-    template_name = "labels/delete.html"
+    template_name = "shared/delete.html"
     success_url = reverse_lazy("labels_index")
+    extra_context = {
+        "title": _("Delete label"),
+    }
 
     def form_valid(self, form):
         if self.object.tasks.exists():
