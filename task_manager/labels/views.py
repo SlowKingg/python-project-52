@@ -47,6 +47,10 @@ class LabelDeleteView(LoginRequiredMixin, DeleteView):
     success_url = reverse_lazy("labels_index")
 
     def form_valid(self, form):
+        if self.object.tasks.exists():
+            messages.error(self.request, _("Cannot delete label"))
+            return redirect("labels_index")
+
         try:
             response = super().form_valid(form)
         except ProtectedError:
