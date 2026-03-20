@@ -9,16 +9,16 @@
 <form method="get" class="card card-body mb-3">
     <div class="d-flex flex-column gap-3">
         <div>
-            {% bootstrap_field filter_form.status %}
+            {% bootstrap_field filter.form.status %}
         </div>
         <div>
-            {% bootstrap_field filter_form.executor %}
+            {% bootstrap_field filter.form.executor %}
         </div>
         <div>
-            {% bootstrap_field filter_form.labels %}
+            {% bootstrap_field filter.form.labels %}
         </div>
         <div>
-            {% bootstrap_field filter_form.self_tasks %}
+            {% bootstrap_field filter.form.self_tasks %}
         </div>
         <div>
             <button type="submit" class="btn btn-primary">{% trans 'Show' %}</button>

@@ -1,9 +1,10 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models import ProtectedError
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext_lazy as _
 from django.views.generic import CreateView, DeleteView, ListView, UpdateView
 
 from .forms import StatusForm
@@ -16,42 +17,28 @@ class StatusListView(LoginRequiredMixin, ListView):
     context_object_name = "statuses"
 
 
-class StatusCreateView(LoginRequiredMixin, CreateView):
+class StatusCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     model = Status
     form_class = StatusForm
     template_name = "statuses/form.html"
     success_url = reverse_lazy("statuses_index")
-
-    def form_valid(self, form):
-        messages.success(
-            self.request, _("Status has been created successfully")
-        )
-        return super().form_valid(form)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["title"] = _("Create status")
-        context["submit_label"] = _("Create")
-        return context
+    success_message = _("Status has been created successfully")
+    extra_context = {
+        "title": _("Create status"),
+        "submit_label": _("Create"),
+    }
 
 
-class StatusUpdateView(LoginRequiredMixin, UpdateView):
+class StatusUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Status
     form_class = StatusForm
     template_name = "statuses/form.html"
     success_url = reverse_lazy("statuses_index")
-
-    def form_valid(self, form):
-        messages.success(
-            self.request, _("Status has been updated successfully")
-        )
-        return super().form_valid(form)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["title"] = _("Update status")
-        context["submit_label"] = _("Update")
-        return context
+    success_message = _("Status has been updated successfully")
+    extra_context = {
+        "title": _("Update status"),
+        "submit_label": _("Update"),
+    }
 
 
 class StatusDeleteView(LoginRequiredMixin, DeleteView):

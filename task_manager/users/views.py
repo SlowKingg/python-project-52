@@ -1,13 +1,14 @@
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models import ProtectedError
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import CreateView, DeleteView, ListView, UpdateView
 
-from .forms import UserCreateForm, UserUpdateForm
+from .forms import UserCreateForm
 from .mixins import CurrentUserOnlyMixin
 
 User = get_user_model()
@@ -19,39 +20,32 @@ class UserListView(ListView):
     context_object_name = "users"
 
 
-class UserCreateView(CreateView):
+class UserCreateView(SuccessMessageMixin, CreateView):
     form_class = UserCreateForm
     template_name = "users/form.html"
     success_url = reverse_lazy("login")
-
-    def form_valid(self, form):
-        messages.success(
-            self.request, _("User has been registered successfully")
-        )
-        return super().form_valid(form)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["title"] = _("Sign up")
-        context["submit_label"] = _("Register")
-        return context
+    success_message = _("User has been registered successfully")
+    extra_context = {
+        "title": _("Sign up"),
+        "submit_label": _("Register"),
+    }
 
 
-class UserUpdateView(LoginRequiredMixin, CurrentUserOnlyMixin, UpdateView):
+class UserUpdateView(
+    LoginRequiredMixin,
+    CurrentUserOnlyMixin,
+    SuccessMessageMixin,
+    UpdateView,
+):
     model = User
-    form_class = UserUpdateForm
+    form_class = UserCreateForm
     template_name = "users/form.html"
     success_url = reverse_lazy("users_index")
-
-    def form_valid(self, form):
-        messages.success(self.request, _("User has been updated successfully"))
-        return super().form_valid(form)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["title"] = _("Update user")
-        context["submit_label"] = _("Update")
-        return context
+    success_message = _("User has been updated successfully")
+    extra_context = {
+        "title": _("Update user"),
+        "submit_label": _("Update"),
+    }
 
 
 class UserDeleteView(LoginRequiredMixin, CurrentUserOnlyMixin, DeleteView):

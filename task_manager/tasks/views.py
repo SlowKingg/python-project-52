@@ -1,7 +1,8 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext_lazy as _
 from django.views.generic import CreateView, DeleteView, DetailView, UpdateView
 from django_filters.views import FilterView
 
@@ -15,16 +16,9 @@ class TaskListView(LoginRequiredMixin, FilterView):
     template_name = "tasks/index.html"
     context_object_name = "tasks"
     filterset_class = TaskFilterSet
-
-    def get_queryset(self):
-        return Task.objects.select_related(
-            "status", "author", "executor"
-        ).prefetch_related("labels")
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["filter_form"] = context["filter"].form
-        return context
+    queryset = Task.objects.select_related(
+        "status", "author", "executor"
+    ).prefetch_related("labels")
 
 
 class TaskDetailView(LoginRequiredMixin, DetailView):
@@ -32,39 +26,32 @@ class TaskDetailView(LoginRequiredMixin, DetailView):
     template_name = "tasks/detail.html"
 
 
-class TaskCreateView(LoginRequiredMixin, CreateView):
+class TaskCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     model = Task
     form_class = TaskForm
     template_name = "tasks/form.html"
     success_url = reverse_lazy("tasks_index")
+    success_message = _("Task has been created successfully")
+    extra_context = {
+        "title": _("Create task"),
+        "submit_label": _("Create"),
+    }
 
     def form_valid(self, form):
         form.instance.author = self.request.user
-        messages.success(self.request, _("Task has been created successfully"))
         return super().form_valid(form)
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["title"] = _("Create task")
-        context["submit_label"] = _("Create")
-        return context
 
-
-class TaskUpdateView(LoginRequiredMixin, UpdateView):
+class TaskUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Task
     form_class = TaskForm
     template_name = "tasks/form.html"
     success_url = reverse_lazy("tasks_index")
-
-    def form_valid(self, form):
-        messages.success(self.request, _("Task has been updated successfully"))
-        return super().form_valid(form)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["title"] = _("Update task")
-        context["submit_label"] = _("Update")
-        return context
+    success_message = _("Task has been updated successfully")
+    extra_context = {
+        "title": _("Update task"),
+        "submit_label": _("Update"),
+    }
 
 
 class TaskDeleteView(LoginRequiredMixin, TaskAuthorOnlyMixin, DeleteView):

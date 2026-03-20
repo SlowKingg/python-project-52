@@ -12,50 +12,14 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 
 import os
 from pathlib import Path
-from urllib.parse import parse_qs, unquote, urlparse
 
 from dotenv import load_dotenv
+
+from task_manager.utils import get_env_bool, get_env_list, get_postgres_from_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 load_dotenv(BASE_DIR / ".env")
-
-
-def get_env_bool(name, default=False):
-    value = os.getenv(name)
-    if value is None:
-        return default
-    return value.strip().lower() in {"1", "true", "yes", "on"}
-
-
-def get_env_list(name, default=""):
-    value = os.getenv(name, default)
-    return [item.strip() for item in value.split(",") if item.strip()]
-
-
-def get_postgres_from_url(database_url):
-    parsed = urlparse(database_url)
-    if parsed.scheme not in {"postgres", "postgresql"}:
-        raise ValueError(
-            "DATABASE_URL must start with postgres:// or postgresql://"
-        )
-
-    db_config: dict[str, object] = {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": unquote(parsed.path.lstrip("/")),
-        "USER": unquote(parsed.username or ""),
-        "PASSWORD": unquote(parsed.password or ""),
-        "HOST": parsed.hostname or "localhost",
-    }
-
-    if parsed.port:
-        db_config["PORT"] = str(parsed.port)
-
-    query = parse_qs(parsed.query)
-    if "sslmode" in query and query["sslmode"]:
-        db_config["OPTIONS"] = {"sslmode": query["sslmode"][0]}
-
-    return db_config
 
 
 # Quick-start development settings - unsuitable for production
@@ -64,7 +28,7 @@ def get_postgres_from_url(database_url):
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv(
     "SECRET_KEY",
-    "django-insecure-c0-@^c=&+3c-=6kn_$m#_w%w0@yorfhhnqr57mhu8=z$z0at2b",
+    "secret_key",
 )
 
 # SECURITY WARNING: don't run with debug turned on in production!
