@@ -1,5 +1,5 @@
 # Build script for deployment
-.PHONY: build install collectstatic migrate render-start runserver check makemessages compilemessages ruff-check ruff-check-fix ruff-format ruff-format-check e2e
+.PHONY: build install collectstatic migrate render-start runserver check makemessages compilemessages ruff-check ruff-check-fix ruff-format ruff-format-check e2e e2e-headed e2e-verbose e2e-list
 
 build:
 	./build.sh
@@ -43,4 +43,13 @@ compilemessages:
 
 e2e:
 	npm run test:e2e
+
+e2e-headed:
+	npm run test:e2e:headed
+
+e2e-verbose:
+	npm run test:e2e:verbose
+
+e2e-list:
+	npm run test:e2e -- --list
 

@@ -1,6 +1,7 @@
 import { defineConfig, devices } from '@playwright/test';
 
 process.env.LOCALE ??= 'ru';
+const quietE2E = process.env.E2E_QUIET !== '0';
 
 export default defineConfig({
   testDir: './__tests__',
@@ -10,7 +11,7 @@ export default defineConfig({
   },
   fullyParallel: false,
   workers: 1,
-  reporter: 'list',
+  reporter: quietE2E ? 'dot' : 'list',
   use: {
     baseURL: process.env.BASE_URL ?? 'http://127.0.0.1:8000',
     trace: 'retain-on-failure',
@@ -22,6 +23,8 @@ export default defineConfig({
     url: 'http://127.0.0.1:8000',
     reuseExistingServer: true,
     timeout: 120_000,
+    stdout: quietE2E ? 'ignore' : 'pipe',
+    stderr: quietE2E ? 'ignore' : 'pipe',
   },
   projects: [
     {
