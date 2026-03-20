@@ -1,5 +1,5 @@
 # Build script for deployment
-.PHONY: build install collectstatic migrate render-start runserver check makemessages compilemessages ruff-check ruff-check-fix ruff-format ruff-format-check e2e e2e-headed e2e-verbose e2e-list
+.PHONY: build install collectstatic migrate render-start runserver check test test-django makemessages compilemessages ruff-check ruff-check-fix ruff-format ruff-format-check e2e e2e-headed e2e-verbose e2e-list
 
 build:
 	./build.sh
@@ -22,6 +22,12 @@ runserver:
 
 check:
 	uv run python manage.py check
+
+test:
+	$(MAKE) test-django
+
+test-django:
+	uv run python manage.py test
 
 ruff-check:
 	uv run ruff check .
