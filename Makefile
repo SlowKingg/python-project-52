@@ -1,5 +1,5 @@
 # Build script for deployment
-.PHONY: build install collectstatic migrate render-start runserver check makemessages compilemessages ruff-check ruff-check-fix ruff-format ruff-format-check
+.PHONY: build install collectstatic migrate render-start runserver check makemessages compilemessages ruff-check ruff-check-fix ruff-format ruff-format-check e2e
 
 build:
 	./build.sh
@@ -40,4 +40,7 @@ makemessages:
 
 compilemessages:
 	uv run django-admin compilemessages
+
+e2e:
+	npm run test:e2e
 

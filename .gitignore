@@ -20,9 +20,5 @@ staticfiles/
 
 # ─── Node / Playwright ────────────────────────────────────────────────────────
 node_modules/
-package.json
-package-lock.json
-playwright.config.ts
 playwright-report/
 test-results/
-__tests__/
